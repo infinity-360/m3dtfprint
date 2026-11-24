@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 200" role="img" aria-label="M3 DTF Print">
+  <defs>
+    <clipPath id="tres">
+      <path d="M160 10h70c26 0 42 16 42 38 0 14-7 25-18 31 14 6 22 19 22 35 0 26-19 44-48 44h-68v-34h62c9 0 14-5 14-12s-5-12-14-12h-52V70h50c8 0 12-4 12-10s-4-10-12-10h-60z"/>
+    </clipPath>
+  </defs>
+  <path fill="#3a3d40" d="M8 158V10h44l26 70 26-70h44v148h-38V78l-22 60h-20L46 78v80z"/>
+  <g clip-path="url(#tres)">
+    <rect x="150" y="0" width="140" height="56" fill="#0a85c9"/>
+    <rect x="150" y="56" width="140" height="56" fill="#e01e5a"/>
+    <rect x="150" y="112" width="140" height="60" fill="#f4d21f"/>
+  </g>
+  <text x="140" y="194" text-anchor="middle" font-family="Arial Black, Arial, Helvetica, sans-serif" font-weight="900" font-size="34" fill="#3a3d40" letter-spacing="2">DTF PRINT</text>
+</svg>

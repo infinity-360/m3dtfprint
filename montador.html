@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Montador DTF online — M3 DTF PRINT</title>
+<meta name="description" content="Monte sua folha DTF online: envie suas imagens, defina tamanho e quantidade, veja o preço na hora e envie o PNG em 300 DPI pelo WhatsApp.">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+</head>
+<body data-page="montador">
+<div class="cmyk-bar"></div>
+<div id="site-header"></div>
+
+<div class="page-head">
+  <div class="container">
+    <div class="crumb"><a href="index.html">Home</a> › Montador DTF</div>
+    <h1>Monte seu DTF online</h1>
+    <p>Envie suas imagens, defina tamanho e quantidade e deixe a montagem com a gente. No final, o arquivo PNG em 300 DPI vai pronto para impressão.</p>
+  </div>
+</div>
+
+<div class="container builder">
+  <aside>
+    <div class="panel">
+      <h3><span class="n">1</span> Tipo de impressão</h3>
+      <div class="seg" id="tipos"></div>
+    </div>
+
+    <div class="panel">
+      <h3><span class="n">2</span> Suas imagens</h3>
+      <label class="drop" id="drop">
+        <input type="file" id="file" accept="image/png,image/jpeg,image/webp" multiple hidden>
+        <div class="big">⬆</div>
+        <strong>Clique ou arraste suas imagens aqui</strong>
+        <p>PNG com fundo transparente é o ideal · JPG e WEBP também</p>
+      </label>
+      <div class="items" id="items"></div>
+      <div class="opts">
+        <label><input type="checkbox" id="rotate" checked> Permitir girar para economizar filme</label>
+        <label>Espaço entre imagens <input type="number" id="gap" min="0" max="5" step="0.1"> cm</label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3><span class="n">3</span> Resumo</h3>
+      <div class="summary">
+        <div><span>Tipo</span><strong id="s-tipo">—</strong></div>
+        <div><span>Largura do filme</span><strong id="s-larg">—</strong></div>
+        <div><span>Estampas</span><strong id="s-qtd">0</strong></div>
+        <div><span>Comprimento usado</span><strong id="s-comp">0 cm</strong></div>
+        <div><span>Comprimento cobrado</span><strong id="s-cobr">—</strong></div>
+        <div class="tot"><span>Total estimado</span><span id="s-total">R$ 0,00</span></div>
+      </div>
+      <div id="s-warn"></div>
+      <button class="btn btn-wa btn-block" id="finalizar" style="margin-top:1rem" disabled>Finalizar e enviar no WhatsApp</button>
+      <p class="note">Valor estimado sem frete. O valor final e o prazo são confirmados pela equipe M3 no WhatsApp.</p>
+    </div>
+  </aside>
+
+  <div class="stage">
+    <div class="stage-top">
+      <h3 id="stage-title">Pré-visualização da montagem</h3>
+      <div class="zoom"><button id="zout" aria-label="Diminuir zoom">−</button><button id="zin" aria-label="Aumentar zoom">+</button></div>
+    </div>
+    <div class="sheets" id="sheets">
+      <div class="empty"><div class="big">🖼️</div><p>Adicione imagens para ver a montagem automática aqui.</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
+  <div class="box">
+    <div id="step-form">
+      <h3 id="m-title">Finalizar pedido</h3>
+      <p style="color:var(--ink-2);margin-top:0">Vamos gerar o arquivo PNG em 300 DPI pronto para impressão e preparar a mensagem para o WhatsApp da M3.</p>
+      <label class="field"><span>Seu nome *</span><input id="f-nome" autocomplete="name" required></label>
+      <label class="field"><span>Cidade / UF</span><input id="f-cidade" autocomplete="address-level2" placeholder="Ex.: Apucarana/PR"></label>
+      <label class="field"><span>Observações</span><textarea id="f-obs" placeholder="Prazo, forma de entrega, detalhes da arte..."></textarea></label>
+      <div class="stack">
+        <button class="btn btn-primary btn-block" id="gerar">Gerar arquivo para impressão</button>
+        <button class="btn btn-outline btn-block" data-close>Voltar</button>
+      </div>
+    </div>
+    <div id="step-gen" class="hidden">
+      <h3>Gerando seu arquivo…</h3>
+      <p id="gen-txt" style="color:var(--ink-2)">Preparando…</p>
+      <div class="progress"><i id="gen-bar"></i></div>
+      <p class="note">Arquivos grandes podem levar alguns segundos. Não feche esta janela.</p>
+    </div>
+    <div id="step-done" class="hidden">
+      <h3>✅ Arquivo pronto!</h3>
+      <p style="color:var(--ink-2);margin-top:0">Seu DTF foi montado em PNG 300 DPI. Envie para a M3 pelo WhatsApp:</p>
+      <div class="stack">
+        <button class="btn btn-wa btn-block hidden" id="share">Enviar arquivo no WhatsApp</button>
+        <a class="btn btn-wa btn-block" id="wa-open" target="_blank" rel="noopener">Abrir WhatsApp com o pedido</a>
+      </div>
+      <div class="files" id="files"></div>
+      <div class="warn" id="howto"></div>
+      <button class="btn btn-outline btn-block" data-close style="margin-top:1rem">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+<script src="js/config.js?v=3"></script>
+<script src="js/site.js?v=3"></script>
+<script src="js/montador.js?v=3"></script>
+</body>
+</html>
