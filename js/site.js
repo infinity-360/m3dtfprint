@@ -81,6 +81,60 @@
     a.target = '_blank'; a.rel = 'noopener';
   });
 
+  /* ---------- pop-up de boas-vindas ---------- */
+  (function popup() {
+    if (page === 'montador') return;
+    const KEY = 'm3-popup-visto';
+    try { if (Date.now() - (+localStorage.getItem(KEY) || 0) < 24 * 36e5) return; } catch (e) {}
+    const el = document.createElement('div');
+    el.className = 'promo';
+    el.innerHTML = `
+      <div class="promo-box" role="dialog" aria-modal="true" aria-labelledby="promo-t">
+        <button class="promo-x" aria-label="Fechar">×</button>
+        <div class="promo-top">
+          <img src="assets/logo.svg" alt="M3 DTF Print">
+          <span class="tag"><i></i> Novidade</span>
+        </div>
+        <h3 id="promo-t">Monte seu DTF online em minutos</h3>
+        <p>Envie suas artes, escolha tamanho e quantidade e veja o preço na hora. O arquivo sai pronto para impressão em <b>300 DPI</b>, <b>sem taxa de montagem</b>.</p>
+        <ul>
+          <li>✔ DTF Têxtil a partir de <b>${brl(C.impressoes.textil.precoMetro)}/m</b></li>
+          <li>✔ DTF UV para copos, canecas e superfícies rígidas</li>
+          <li>✔ Envio para todo o Brasil</li>
+        </ul>
+        <div class="promo-acts">
+          <a class="btn btn-primary btn-block" href="montador.html">Montar meu DTF agora →</a>
+          <a class="btn btn-wa btn-block" href="${waLink('Olá, M3 DTF PRINT! Vim pelo site e quero um orçamento.')}" target="_blank" rel="noopener">${WA_ICON} Falar no WhatsApp</a>
+        </div>
+        <button class="promo-later">Agora não</button>
+      </div>`;
+    let last;
+    function open() {
+      last = document.activeElement;
+      document.body.appendChild(el);
+      requestAnimationFrame(() => el.classList.add('open'));
+      el.querySelector('.promo-acts a').focus({ preventScroll: true });
+      document.addEventListener('keydown', onKey);
+      try { localStorage.setItem(KEY, Date.now()); } catch (e) {}
+    }
+    function close() {
+      el.classList.remove('open');
+      setTimeout(() => el.remove(), 250);
+      document.removeEventListener('keydown', onKey);
+      if (last && last.focus) last.focus({ preventScroll: true });
+    }
+    function onKey(e) {
+      if (e.key === 'Escape') close();
+      if (e.key === 'Tab') { // mantém o foco dentro do pop-up
+        const f = [...el.querySelectorAll('a,button')]; const i = f.indexOf(document.activeElement);
+        if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); }
+      }
+    }
+    el.addEventListener('click', e => { if (e.target === el || e.target.closest('.promo-x,.promo-later')) close(); });
+    setTimeout(open, 5000);
+  })();
+
   /* ---------- vitrine ---------- */
   const grid = document.getElementById('grid-produtos');
   if (grid && window.M3_PRODUTOS) {
